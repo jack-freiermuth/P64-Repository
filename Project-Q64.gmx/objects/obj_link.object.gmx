@@ -344,6 +344,57 @@ if attack_state {
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///XP Bar and Health
+
+var hp_x_start = 30;
+var bar_width = 250;
+
+var hp_y_start = 30;
+var bar_height = 15;
+
+var xp_y_start = 50;
+var bar_width = 250;
+
+
+
+//Health Bar
+hp_color_left = make_color_rgb(124, 204, 98);
+hp_color_right = make_color_rgb(109, 184, 84);
+draw_rectangle_color( hp_x_start, hp_y_start, (hp_x_start+bar_width), (hp_y_start+bar_height), c_black, c_black, c_black, c_black, false );
+draw_rectangle_color( hp_x_start, hp_y_start, hp_x_start+((player_hp/max_player_hp)*bar_width), (hp_y_start+bar_height), hp_color_left, hp_color_left, hp_color_right, hp_color_right, false );
+
+draw_set_color(c_white);
+draw_text(125, hp_y_start+1, string(player_hp) + "/" + string(max_player_hp) );
+
+
+//XP Bar
+xp_color_left = make_color_rgb(178, 98, 204);
+xp_color_right = make_color_rgb(159, 84, 184);
+draw_rectangle_color( hp_x_start, xp_y_start, (hp_x_start+bar_width), (xp_y_start+bar_height), c_black, c_black, c_black, c_black, false );
+draw_rectangle_color( hp_x_start, xp_y_start, hp_x_start + ((xp/max_xp)*300), (xp_y_start+bar_height), xp_color_left, xp_color_left, xp_color_right, xp_color_right, false );
+draw_text(125, xp_y_start+1, string(xp) + "/" + string(max_xp) );
+draw_set_color(c_black);
+draw_text(115, xp_y_start+bar_height+1, "Level: " + string(player_level));
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
   </events>
   <PhysicsObject>0</PhysicsObject>

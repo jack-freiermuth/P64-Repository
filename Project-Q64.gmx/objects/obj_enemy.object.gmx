@@ -129,12 +129,12 @@ if (place_meeting(x,y,obj_link)){
 
 if ( hp == 0 ) {
     instance_destroy();
-    xp += 70;
-    //xp_gain = 70;
-    //while ( xp_gain &gt; 0 ) {
-        //xp += 1;
-        //xp_gain -= 1;
-    //}
+    //xp += 70;
+    xp_gain = 70;
+    while ( xp_gain &gt; 0 ) {
+        xp += 1;
+        xp_gain -= 1;
+    }
 }
 
 //draw_healthbar(x-15,y-26,x+15,y-18,hp,c_black,c_red,c_green,0,1,1);
