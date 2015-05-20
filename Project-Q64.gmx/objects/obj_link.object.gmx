@@ -33,35 +33,26 @@ grav = 0.2;
 horizontal_acc = 0.25;
 horizontal_dec = 0.8;
 CROUCH_DEC = .95;
-
-
 horizontal_speed = 0;
 horizontal_speed_carry = 0;
 vertical_speed = 0;
-
 jumps = 0;
 jumps_max = 2;
-
 dir = 1;
-
-
 move = 0;
 move_speed = 2;
 jump_speed_normal = 4;
 jump_speed_powerup = 10;
-
-jump_speed = jump_speed_normal
-
+jump_speed = jump_speed_normal;
 attack_state = false;
+attack_delay = 0;
+max_attack_delay = 60;
 crouch_state = false;
-
-
+key_down = 0;
 if (global.checkpointR == room) {
     x = global.checkpointx;
     y = global.checkpointy;
 }
-
-key_down = 0;
 </string>
           </argument>
         </arguments>
@@ -235,27 +226,38 @@ if !attack_state {
         crouch_state = false;
     }
     
-    if ( crouch_state == true &amp;&amp; key_attack ) {
-        attack_state = true;
-        horizontal_speed *= horizontal_dec;
-        sprite_index = spr_link_crouch_attack;
-        image_speed = .1;
-        image_index = 0;
+    //crouch sword swing attack
+    if ( 0 &gt;= attack_delay ) {
+        if ( crouch_state == true &amp;&amp; key_attack ) {
+            attack_state = true;
+            attack_delay = max_attack_delay;
+            audio_play_sound(snd_melee_swing_2, 1, false);
+            horizontal_speed *= horizontal_dec;
+            sprite_index = spr_link_crouch_attack;
+            image_speed = .1;
+            image_index = 0;
+        }
+    } else {
+        attack_delay -= 1;
     }
     
-    //attack animation
-    if ( key_attack &amp;&amp; !crouch_state) {
-        attack_state = true;
-        
-        audio_play_sound(snd_melee_swing_0, 1, false);
-        horizontal_speed *= horizontal_dec;
-        sprite_index = spr_link_attack;
-        image_speed = .1;
-        image_index = 0;
-        
-        with instance_create(x, y, obj_sword_hit) {
-            image_xscale = obj_link.image_xscale;
+    //sword swing attack
+    if ( 0 &gt;= attack_delay ) {
+        if ( key_attack &amp;&amp; !crouch_state) {
+            attack_state = true;
+            attack_delay = max_attack_delay;
+            audio_play_sound(snd_melee_swing_0, 1, false);
+            horizontal_speed *= horizontal_dec;
+            sprite_index = spr_link_attack;
+            image_speed = .1;
+            image_index = 0;
+            
+            with instance_create(x, y, obj_sword_hit) {
+                image_xscale = obj_link.image_xscale;
+            }
         }
+    } else {
+        attack_delay -= 1;
     }
     
 }

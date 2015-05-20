@@ -163,6 +163,12 @@ if ( hp == 0 ) {
           <argument>
             <kind>1</kind>
             <string>hp -= 1;
+x -= 25*dir;
+knockback = 25;
+//if kn
+
+
+audio_play_sound(enemy_hit_ogre_1, 1, false);
 </string>
           </argument>
         </arguments>
