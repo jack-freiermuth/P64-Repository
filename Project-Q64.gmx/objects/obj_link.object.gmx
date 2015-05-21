@@ -49,6 +49,8 @@ attack_delay = 0;
 max_attack_delay = 60;
 crouch_state = false;
 key_down = 0;
+knockback_speed = 0;
+knockback_amount = 0;
 if (global.checkpointR == room) {
     x = global.checkpointx;
     y = global.checkpointy;
@@ -124,6 +126,9 @@ camera_movement();
 
 //React to input
 move = key_left + key_right;
+if (move != 0) {
+    dir = move;
+}
 //horizontal_speed = move * move_speed;
 
 if( !crouch_state &amp;&amp; !attack_state) {
@@ -165,7 +170,30 @@ if (place_meeting(x + horizontal_speed, y, obj_wall)) {
     }
     horizontal_speed = 0;
 }
-x += horizontal_speed;
+
+if ( knockback_amount &lt;= 0 ) {
+    x += horizontal_speed;
+}
+
+//knockback
+if ( knockback_amount != 0 ) {
+    if (abs(knockback_amount) &gt; 10) knockback_speed = 5;
+    else knockback_speed = 5;
+    //knockback wall collision
+    if (place_meeting(x + sign(knockback_amount)*knockback_speed+2, y, obj_wall)) {
+        while(!place_meeting(x+sign(knockback_speed)+2, y, obj_wall)) {
+            x += sign(knockback_speed);
+        }
+        knockback_speed = 0;
+    }
+    if (knockback_amount &gt; 0){
+        x += knockback_speed;
+        knockback_amount -= knockback_speed; 
+    } else {
+        x -= knockback_speed;
+        knockback_amount += knockback_speed; 
+    } 
+}
 
 //Vertical collision 
 if (place_meeting(x, y + vertical_speed, obj_wall)) {
@@ -203,7 +231,7 @@ if !attack_state {
     }
     
     if (place_meeting( x, y+1, obj_wall ) ) {
-        if (move!=0) {
+        if (move!=0 &amp;&amp; horizontal_speed != 0 ) {
             sprite_index = spr_link_run; 
             image_speed = .4;
         } else {
@@ -236,6 +264,10 @@ if !attack_state {
             sprite_index = spr_link_crouch_attack;
             image_speed = .1;
             image_index = 0;
+            
+            with instance_create(x, y, obj_crouch_sword_hit) {
+                image_xscale = obj_link.image_xscale;
+            }
         }
     } else {
         attack_delay -= 1;

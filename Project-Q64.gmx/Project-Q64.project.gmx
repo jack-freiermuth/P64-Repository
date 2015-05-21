@@ -28,6 +28,7 @@
     <sprite>sprites\spr_link_jump</sprite>
     <sprite>sprites\spr_link_crouch</sprite>
     <sprite>sprites\spr_link_crouch_attack</sprite>
+    <sprite>sprites\spr_link_crouch_attack_hit</sprite>
     <sprite>sprites\spr_link_attack</sprite>
     <sprite>sprites\spr_link_attack_hit</sprite>
     <sprite>sprites\spr_link_up_thrust</sprite>
@@ -60,6 +61,7 @@
     <object>objects\obj_start_screen</object>
     <object>objects\obj_menu</object>
     <object>objects\obj_sword_hit</object>
+    <object>objects\obj_crouch_sword_hit</object>
     <object>objects\obj_stats</object>
   </objects>
   <rooms name="rooms">
