@@ -38,6 +38,32 @@ can_attack = 45;
 hp = 5;
 max_hp = 5;
 hp_percent = (hp/max_hp)*100;
+
+knockback_amount = 0;
+knockback_speed = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//speed += 15;
 </string>
           </argument>
         </arguments>
@@ -60,9 +86,23 @@ hp_percent = (hp/max_hp)*100;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>horizontal_speed = dir * move_speed;
+            <string>//horizontal_speed = dir * move_speed;
 vertical_speed += grav;
 image_xscale = dir;
+
+//knockback
+if ( knockback_amount != 0 ) {
+    if (knockback_amount &gt; 10) {
+       knockback_speed = 5;
+    } else {
+        knockback_speed = 5;
+    }
+
+     x -= dir*knockback_speed;
+     knockback_amount -= knockback_speed;  
+     
+}
+
 
 //Enemy AI
 if ( distance_to_object(obj_link) &lt; radius ) {
@@ -78,8 +118,6 @@ if ( distance_to_object(obj_link) &lt; radius ) {
     horizontal_speed = 0;
 }
 
-
-
 if ( horizontal_speed != 0 ) {
     sprite_index = spr_tinsuit_walk;
     image_speed = .4;
@@ -94,18 +132,17 @@ if (place_meeting(x+horizontal_speed,y,obj_wall)){
         x += sign(horizontal_speed);
     }
     horizontal_speed = 0;
-    
-    dir *= -1;
 }
-x += horizontal_speed;
-
+if ( knockback_amount &lt;= 0 ) {
+    x += horizontal_speed;
+}
+    
 //Vertical Collision
 if (place_meeting(x,y+vertical_speed,obj_wall)){
     while(!place_meeting(x,y+sign(vertical_speed),obj_wall))    {
         y += sign(vertical_speed);
     }
     vertical_speed = 0;
-
 }
 y += vertical_speed;
 
@@ -113,9 +150,10 @@ if( can_attack &gt; 0 ) {
     can_attack -= 1;
 }
 
+
 //Enemy Collision
 if (place_meeting(x,y,obj_link)){
-    if (obj_link.y &lt; y-80)    {
+    if (obj_link.y &lt; y-80) {
         with (obj_link) vertical_speed = -jump_speed;
         instance_destroy();
     } else {
@@ -127,9 +165,9 @@ if (place_meeting(x,y,obj_link)){
     }
 }
 
+
 if ( hp == 0 ) {
     instance_destroy();
-    //xp += 70;
     xp_gain = 70;
     while ( xp_gain &gt; 0 ) {
         xp += 1;
@@ -137,8 +175,6 @@ if ( hp == 0 ) {
     }
 }
 
-//draw_healthbar(x-15,y-26,x+15,y-18,hp,c_black,c_red,c_green,0,1,1);
-//draw_sprite(sprite_index,image_index,x,y);
 
 </string>
           </argument>
@@ -163,12 +199,12 @@ if ( hp == 0 ) {
           <argument>
             <kind>1</kind>
             <string>hp -= 1;
-x -= 25*dir;
-knockback = 25;
-//if kn
-
-
+//x -= 25*dir;
+//knockback(25);
 audio_play_sound(enemy_hit_ogre_1, 1, false);
+knockback_amount = 25;
+//horizontal_speed = -5;
+//alarm[0] = 5;
 </string>
           </argument>
         </arguments>
